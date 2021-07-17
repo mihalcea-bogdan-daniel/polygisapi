@@ -5,10 +5,25 @@ const bodyParser = require("body-parser");
 let router = express.Router();
 router.use(express.json());
 
+//	---------------- GET METHODS ---------------------
+//get all stats
 router.route("/").get((req, res) => {
-  res.send("hi get /stats");
+  getAll = "SELECT * FROM stats";
+  db.query(getAll, (err, results) => {
+    if (err) res.status(500).send(err.message);
+    res.status(200).send(results);
+  });
 });
 
+router.route("/:uuid").get((req, res) => {
+  const getAllQuery = `SELECT * FROM stats WHERE uuid='${req.params.uuid}'`;
+  db.query(getAllQuery, (err, results) => {
+    if (err) res.status(500).send(err.message);
+    res.status(200).send(results);
+  });
+});
+
+//	---------------- POST METHODS ---------------------
 router.route("/:uuid").post((req, res) => {
   const query = "SELECT * FROM stats WHERE uuid='" + req.params.uuid + "'";
 
