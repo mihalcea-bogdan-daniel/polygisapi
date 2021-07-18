@@ -1,7 +1,7 @@
 {
   "name": "giswebapi",
   "version": "1.0.0",
-  "description": "A REST API to validate usage for GISDownloader AddOn for archciad 24",
+  "description": "A REST API to validate usage for polyGIS AddOn for archciad 24",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
