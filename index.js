@@ -16,18 +16,7 @@ app.use("/history", history);
 //use the stats.js file to handle endpoints that start with stats
 
 app.get("/", (req, res) => {
-  res.send("PolyGIS API - deployment check");
+  res.send("PolyGIS API - By Arh. Mihalcea Bogdan Daniel");
 });
 
-app.get("/db", (req, res) => {
-  db.query("SELECT * FROM stats", (err, result) => {
-    if (err) {
-      res.status(100).send(err.message);
-    }
-    res.send(result);
-  });
-});
-
-app.listen(process.env.API_PORT, (req, res) => {
-  console.log(`Listening on port ${process.env.API_PORT}`);
-});
+app.listen(process.env.API_PORT);
