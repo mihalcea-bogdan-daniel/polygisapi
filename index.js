@@ -16,7 +16,7 @@ app.use("/history", history);
 //use the stats.js file to handle endpoints that start with stats
 
 app.get("/", (req, res) => {
-  res.send("PolyGIS API");
+  res.send("PolyGIS API - deployment check");
 });
 
 app.get("/db", (req, res) => {
