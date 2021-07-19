@@ -9,7 +9,6 @@ router.use(authentication);
 //	---------------- GET METHODS ---------------------
 // GET All history
 router.route("/").get((req, res) => {
-  const getHistoryQuery = `SELECT * FROM search_history`;
   let start = req.query.start;
   let count = req.query.count;
   let total_table_entries = 0;
@@ -25,7 +24,7 @@ router.route("/").get((req, res) => {
     total_table_entries = results[0]["COUNT(*)"];
   });
 
-  db.query(getHistoryQuery, (err, results) => {
+  db.query(getAllQuery, (err, results) => {
     if (err) res.status(500).send(err.message);
     let obj = {
       content: results,
@@ -39,7 +38,6 @@ router.route("/").get((req, res) => {
 router
   .route("/:uuid")
   .get((req, res) => {
-    const getHistoryQuery = `SELECT * FROM search_history WHERE (uuid = '${req.params.uuid}')`;
     let start = req.query.start;
     let count = req.query.count;
     let total_table_entries = 0;
@@ -55,7 +53,7 @@ router
       total_table_entries = results[0]["COUNT(*)"];
     });
 
-    db.query(getHistoryQuery, (err, results) => {
+    db.query(getAllQuery, (err, results) => {
       if (err) res.status(500).send(err.message);
       let obj = {
         content: results,
@@ -67,13 +65,12 @@ router
 
   //	---------------- POST METHODS ---------------------
   .post((req, res) => {
-    const insertHistoryQuery = `INSERT INTO search_history (judet, localitate, numar_cadastral, polygon_numar_cadastral, uuid, data) VALUES (
+    const insertHistoryQuery = `INSERT INTO search_history (judet, localitate, numar_cadastral, polygon_numar_cadastral, uuid) VALUES (
         '${req.query.judet}', 
         '${req.query.localitate}', 
         '${req.query.numar_cadastral}',
         ST_PolygonFromText('POLYGON(${req.query.polygon})'), 
         '${req.params.uuid}',
-        CURRENT_DATE
         );
     `;
     db.query(insertHistoryQuery, (err, results) => {
@@ -83,9 +80,6 @@ router
         res.sendStatus(200);
       }
     });
-    console.log(
-      `( ${req.query.judet},  ${req.query.localitate},  POLYGON(${req.query.polygon}),  ${req.params.uuid} )`
-    );
   });
 
 module.exports = router;
