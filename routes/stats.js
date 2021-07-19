@@ -34,28 +34,31 @@ router.route("/").get((req, res) => {
 });
 
 //GET stats by UUID
-router.route("/:uuid").get((req, res) => {
-  const getAllQuery = `SELECT * FROM stats WHERE uuid='${req.params.uuid}'`;
-  db.query(getAllQuery, (err, results) => {
-    if (err) res.status(500).send(err.message);
-    res.status(200).send(results);
-  });
-});
+router
+  .route("/:uuid")
+  .get((req, res) => {
+    const getAllQuery = `SELECT * FROM stats WHERE uuid='${req.params.uuid}'`;
+    console.log("Get method called");
+    db.query(getAllQuery, (err, results) => {
+      if (err) res.status(500).send(err.message);
+      res.status(200).send(results);
+    });
+  })
 
-//	---------------- POST METHODS ---------------------
-router.route("/:uuid").post((req, res) => {
-  let search_count,
-    donation_count = 0;
-  if (req.query.increment_column == "search_count") search_count = 1;
-  if (req.query.increment_column == "donation_count") donation_count = 1;
-  const query = `INSERT INTO stats (uuid, search_count, donation_count, is_ok)
+  //	---------------- POST METHODS ---------------------
+  .post((req, res) => {
+    let search_count,
+      donation_count = 0;
+    if (req.query.increment_column == "search_count") search_count = 1;
+    if (req.query.increment_column == "donation_count") donation_count = 1;
+    const query = `INSERT INTO stats (uuid, search_count, donation_count, is_ok)
 	 VALUES ('${req.params.uuid}', '${search_count}', '${donation_count}', 1)
 	 ON DUPLICATE KEY UPDATE ${req.query.increment_column} = ${req.query.increment_column} + 1`;
-
-  db.query(query, (err, results) => {
-    if (err) res.status(500).send(err.message);
-    res.sendStatus(200);
+    console.log("POst method called");
+    db.query(query, (err, results) => {
+      if (err) res.status(500).send(err.message);
+      res.sendStatus(200);
+    });
   });
-});
 
 module.exports = router;
