@@ -46,7 +46,7 @@ router
       start = 0;
       count = 20;
     }
-    let countQuery = `SELECT COUNT(*) FROM search_history`;
+    let countQuery = `SELECT COUNT(*) FROM search_history WHERE (uuid = '${req.params.uuid}')`;
     let getAllQuery = `SELECT * FROM search_history WHERE (uuid = '${req.params.uuid}') LIMIT ${start},${count}`;
     db.query(countQuery, (err, results) => {
       if (err) res.status(500).send(err.message);
