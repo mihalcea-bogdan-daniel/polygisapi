@@ -65,14 +65,13 @@ router
 
   //	---------------- POST METHODS ---------------------
   .post((req, res) => {
-    const insertHistoryQuery = `INSERT INTO search_history (judet, localitate, numar_cadastral, polygon_numar_cadastral, uuid) VALUES (
+    const insertHistoryQuery = `INSERT INTO search_history (judet, localitate, numar_cadastral, polygon_numar_cadastral, uuid) 
+    VALUES (
         '${req.query.judet}', 
         '${req.query.localitate}', 
         '${req.query.numar_cadastral}',
         ST_PolygonFromText('POLYGON(${req.query.polygon})'), 
-        '${req.params.uuid}',
-        );
-    `;
+        '${req.params.uuid}')`;
     db.query(insertHistoryQuery, (err, results) => {
       if (err) {
         res.status(500).send(err.message);
