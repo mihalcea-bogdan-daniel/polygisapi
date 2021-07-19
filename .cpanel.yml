@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=/home/arhiwrrs/api/api.polygis.xyz
+    - export DEPLOYPATH=/home/arhiwrrs/api.polygis.xyz
     - /bin/cp -R routes $DEPLOYPATH
     - /bin/cp index.js $DEPLOYPATH
     - /bin/cp sqlconnection.js $DEPLOYPATH
