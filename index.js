@@ -30,5 +30,4 @@ app.get("/db", (req, res) => {
 
 app.listen(process.env.API_PORT, (req, res) => {
   console.log(`Listening on port ${process.env.API_PORT}`);
-  
 });
