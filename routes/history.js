@@ -1,6 +1,6 @@
 const express = require("express");
 const db = require("../sqlconnection.js");
-const authentication = require("../authentication.js");
+const { authentication } = require("../authentication.js");
 
 let router = express.Router();
 router.use(express.json());
