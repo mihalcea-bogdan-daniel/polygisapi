@@ -1,4 +1,6 @@
 require("dotenv").config();
+let db = require("./sqlconnection");
+
 exports.authentication = function (req, res, next) {
   if (req.headers.authorization == process.env.AUTH_KEY) {
     next();
@@ -10,7 +12,7 @@ exports.authentication = function (req, res, next) {
 exports.is_polygis_usable = function (req, res, next) {
   if (
     process.env.POLYGIS_ADDON_USABLE == "true" ||
-    req.query.uuid == process.env.POLYGIS_ADMIN_UUID
+    req.body.uuid == process.env.POLYGIS_ADMIN_UUID
   ) {
     next();
   } else {
