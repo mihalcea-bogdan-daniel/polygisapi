@@ -17,34 +17,52 @@ router
     let body = req.body;
     //IF body in the request send an error
     if (body == undefined) {
-      res.status(400).send('Check the requests body.');
-    }else if (body.uuid == undefined) {
-      res.status(400).send('Check if body request contains UUID parameter.');
-    } else {
-      db.query(
-        `SELECT is_ok FROM stats WHERE (uuid = '${req.body.uuid}')`,
-        (err, results) => {
-          if (err) res.status(500).send(err.message);
-          is_ok = results[0]["is_ok"];
-          //IF users is_ok == 0 than deny access
-          if (is_ok == 0) {
+      res.status(400).send("Check the requests body.");
+      return;
+    }
+    if (body.uuid == undefined) {
+      res.status(400).send('Check if body request contains "uuid" parameter.');
+      return;
+    }
+
+    db.query(
+      `SELECT is_ok FROM stats WHERE (uuid = '${req.body.uuid}')`,
+      (err, results) => {
+        if (err) {
+          res.status(500).send(err.message);
+          return;
+        }
+        try {
+          if (results[0]["is_ok"] == 0) {
             res
               .status(403)
               .send(
                 "EROARE - Acces restricitionat, va rugam contactati admininstratorul."
               );
+          } else {
+            let query_string = `SELECT id,version,mandatory_update,update_link FROM validation WHERE date = (SELECT MAX(date) from validation)`;
+            db.query(query_string, (err, results) => {
+              if (err) res.sendStatus(500);
+              if (
+                req.body.version != process.env.POLYGIS_FREE_VERSION &&
+                req.body.version != results[0]["version"]
+              ) {
+                res
+                  .status(426)
+                  .send(
+                    `Update required, please download the latest version\nfrom this link ${results[0]["update_link"]}`
+                  );
+              } else {
+                res.sendStatus(202);
+              }
+            });
           }
+        } catch (error) {
+          res.status(500).send(`Exception Error`);
+          return;
         }
-      );
-      let query_string = `SELECT id,version,mandatory_update,update_link FROM validation WHERE date = (SELECT MAX(date) from validation)`;
-      db.query(query_string, (err, results) => {
-        if (err) res.sendStatus(500);
-        console.log(results);
-        
-        res.sendStatus(200);
-      });
-    }
-
+      }
+    );
   });
 
 module.exports = router;
