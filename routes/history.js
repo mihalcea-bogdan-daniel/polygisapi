@@ -14,7 +14,6 @@ router
     let start = req.body.start;
     let count = req.body.count;
     let total_table_entries = 0;
-
     if (req.body.start == undefined || req.body.count == undefined) {
       start = 0;
       count = 20;
