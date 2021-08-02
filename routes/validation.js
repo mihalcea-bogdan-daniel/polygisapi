@@ -58,7 +58,7 @@ router
             });
           }
         } catch (error) {
-          res.status(500).send(`Exception Error`);
+          res.status(500).send(error.message);
           return;
         }
       }

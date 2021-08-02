@@ -58,7 +58,6 @@ router
     });
   });
 
-// /UUID
 //GET stats by UUID
 router.route("/:uuid").get((req, res) => {
   const getAllQuery = `SELECT * FROM stats WHERE uuid='${req.params.uuid}'`;
