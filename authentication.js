@@ -1,8 +1,7 @@
 require("dotenv").config();
-let db = require("./sqlconnection");
 
 exports.authentication = function (req, res, next) {
-  if (req.headers.Authorization == process.env.AUTH_KEY) {
+  if (req.headers.authorization == process.env.AUTH_KEY) {
     next();
   } else {
     res.sendStatus(403);
