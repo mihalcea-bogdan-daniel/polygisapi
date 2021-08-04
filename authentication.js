@@ -18,7 +18,7 @@ exports.is_polygis_usable = function (req, res, next) {
     res
       .status(403)
       .send(
-        "EROARE - Acces restricitionat, va rugam contactati admininstratorul."
+        "EROARE - Acces restricitionat, va rugam contactati admininstratorul \nIncercatisa descarcati ultima versiune."
       );
   }
 };
