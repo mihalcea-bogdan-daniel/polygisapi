@@ -2,7 +2,7 @@
 
 //Library requires
 const express = require("express");
-
+const path = require("path");
 //Router requires
 const stats = require("./routes/stats.js");
 const history = require("./routes/history.js");
@@ -17,7 +17,15 @@ app.use("/validation", validation);
 //use the stats.js file to handle endpoints that start with stats
 
 app.get("/", (req, res) => {
-  res.send("PolyGIS API - By Arh. Mihalcea Bogdan Daniel");
+  var options = { root: path.join(__dirname) };
+  res.sendFile("cauta_nc.html", options, function (err) {
+    if (err) {
+      next(err);
+    } else {
+      console.log("File Sent");
+    }
+  });
+  //res.send("PolyGIS API - By Arh. Mihalcea Bogdan Daniel");
 });
 
 app.listen(process.env.API_PORT);
