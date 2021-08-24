@@ -32,5 +32,6 @@ function GetLocalitati(e, param) {
 }
 function GetPoints(params) {}
 judeteSelector.addEventListener("change", function (ev) {
+  
   GetLocalitati(ev, 1000);
 });

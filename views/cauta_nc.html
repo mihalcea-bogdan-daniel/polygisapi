@@ -12,6 +12,15 @@
     />
 
     <title>Descarca DXF</title>
+    <style>
+      input[type="number"]::-webkit-inner-spin-button,
+      input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        margin: 0;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -83,6 +92,7 @@
             />
           </div>
         </div>
+        <button type="button" class="btn btn-primary col-sm-2">Cauta</button>
       </div>
     </div>
     <!--  Bootstrap Bundle with Popper -->
@@ -91,6 +101,6 @@
       integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
       crossorigin="anonymous"
     ></script>
-    <script src="/views/fetcher.js"></script>
+    <script src="fetcher.js"></script>
   </body>
 </html>

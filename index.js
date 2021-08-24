@@ -13,7 +13,7 @@ const app = express();
 app.use("/stats", stats);
 app.use("/history", history);
 app.use("/validation", validation);
-
+app.use(express.static("views"))
 //use the stats.js file to handle endpoints that start with stats
 
 app.get("/", (req, res) => {
@@ -21,21 +21,10 @@ app.get("/", (req, res) => {
   res.sendFile("views/cauta_nc.html", options, function (err) {
     if (err) {
       res.send(err.message);
-    } else {
-      console.log("File Sent");
-    }
+      return;
+    } 
   });
 });
 
-app.get("/views/fetcher.js", (req, res) => {
-  var options = { root: path.join(__dirname) };
-  res.sendFile("views/fetcher.js", options, function (err) {
-    if (err) {
-      res.send(err.message);
-    } else {
-      console.log("File Sent");
-    }
-  });
-});
 
 app.listen(process.env.API_PORT);
