@@ -18,14 +18,24 @@ app.use("/validation", validation);
 
 app.get("/", (req, res) => {
   var options = { root: path.join(__dirname) };
-  res.sendFile("cauta_nc.html", options, function (err) {
+  res.sendFile("views/cauta_nc.html", options, function (err) {
     if (err) {
-      next(err);
+      res.send(err.message);
     } else {
       console.log("File Sent");
     }
   });
-  //res.send("PolyGIS API - By Arh. Mihalcea Bogdan Daniel");
+});
+
+app.get("/views/fetcher.js", (req, res) => {
+  var options = { root: path.join(__dirname) };
+  res.sendFile("views/fetcher.js", options, function (err) {
+    if (err) {
+      res.send(err.message);
+    } else {
+      console.log("File Sent");
+    }
+  });
 });
 
 app.listen(process.env.API_PORT);
