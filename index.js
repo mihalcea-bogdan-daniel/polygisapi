@@ -7,13 +7,16 @@ const path = require("path");
 const stats = require("./routes/stats.js");
 const history = require("./routes/history.js");
 const validation = require("./routes/validation.js");
+const dxf = require("./routes/dxf.js");
 const app = express();
 
 // Routes - Middlewares
 app.use("/stats", stats);
 app.use("/history", history);
 app.use("/validation", validation);
-app.use(express.static("views"))
+app.use("/dxf", dxf);
+//Static webpage
+app.use(express.static("views"));
 //use the stats.js file to handle endpoints that start with stats
 
 app.get("/", (req, res) => {
@@ -22,9 +25,17 @@ app.get("/", (req, res) => {
     if (err) {
       res.send(err.message);
       return;
-    } 
+    }
   });
 });
 
+app.get("/dxf", (req, res) => {
+  res.sendFile("views/cauta_nc.html", options, function (err) {
+    if (err) {
+      res.send(err.message);
+      return;
+    }
+  });
+});
 
 app.listen(process.env.API_PORT);

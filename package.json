@@ -1,20 +1,21 @@
 {
-  "name": "giswebapi",
-  "version": "1.0.0",
-  "description": "A REST API to validate usage for polyGIS AddOn for archciad 24",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
-  },
-  "author": "Mihalcea Bogdan Daniel",
-  "license": "ISC",
-  "dependencies": {
-    "body-parser": "^1.19.0",
-    "express": "^4.17.1",
-    "mysql": "^2.18.1"
-  },
-  "devDependencies": {
-    "dotenv": "^10.0.0"
-  }
+    "name": "giswebapi",
+    "version": "1.0.0",
+    "description": "A REST API to validate usage for polyGIS AddOn for archciad 24",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "start": "node index.js"
+    },
+    "author": "Mihalcea Bogdan Daniel",
+    "license": "ISC",
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "dxf-writer": "^1.10.0",
+        "express": "^4.17.1",
+        "mysql": "^2.18.1"
+    },
+    "devDependencies": {
+        "dotenv": "^10.0.0"
+    }
 }
