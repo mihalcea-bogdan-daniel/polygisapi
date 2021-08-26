@@ -1,109 +1,119 @@
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Bootstrap CSS -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
-      crossorigin="anonymous"
-    />
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <!-- Bootstrap CSS -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We"
+            crossorigin="anonymous"
+        />
 
-    <title>Descarca DXF</title>
-    <style>
-      input[type="number"]::-webkit-inner-spin-button,
-      input[type="number"]::-webkit-outer-spin-button {
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        appearance: none;
-        margin: 0;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <!-- Content here -->
-      <div class="row pt-lg-5">
-        <div class="col-sm-2">
-          <select class="form-select judete" aria-label="Selecteaza Judet">
-            <option selected value="-1">Selecteaza Judet</option>
-            <option value="10">ALBA</option>
-            <option value="29">ARAD</option>
-            <option value="38">ARGES</option>
-            <option value="47">BACAU</option>
-            <option value="56">BIHOR</option>
-            <option value="65">BISTRITA–NASAUD</option>
-            <option value="74">BOTOSANI</option>
-            <option value="92">BRAILA</option>
-            <option value="83">BRASOV</option>
-            <option value="403">BUCURESTI</option>
-            <option value="109">BUZAU</option>
-            <option value="519">CALARASI</option>
-            <option value="118">CARAS–SEVERIN</option>
-            <option value="127">CLUJ</option>
-            <option value="136">CONSTANTA</option>
-            <option value="145">COVASNA</option>
-            <option value="154">DAMBOVITA</option>
-            <option value="163">DOLJ</option>
-            <option value="172">GALATI</option>
-            <option value="528">GIURGIU</option>
-            <option value="181">GORJ</option>
-            <option value="190">HARGHITA</option>
-            <option value="207">HUNEDOARA</option>
-            <option value="216">IALOMITA</option>
-            <option value="225">IASI</option>
-            <option value="234">ILFOV</option>
-            <option value="243">MARAMURES</option>
-            <option value="252">MEHEDINTI</option>
-            <option value="261">MURES</option>
-            <option value="270">NEAMT</option>
-            <option value="289">OLT</option>
-            <option value="298">PRAHOVA</option>
-            <option value="314">SALAJ</option>
-            <option value="305">SATU MARE</option>
-            <option value="323">SIBIU</option>
-            <option value="332">SUCEAVA</option>
-            <option value="341">TELEORMAN</option>
-            <option value="350">TIMIS</option>
-            <option value="369">TULCEA</option>
-            <option value="387">VALCEA</option>
-            <option value="378">VASLUI</option>
-            <option value="396">VRANCEA</option>
-          </select>
+        <title>Descarca DXF</title>
+        <style>
+            input[type="number"]::-webkit-inner-spin-button,
+            input[type="number"]::-webkit-outer-spin-button {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                margin: 0;
+            }
+            input[type="number"] {
+                -moz-appearance: textfield;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <!-- Content here -->
+            <div class="row pt-lg-5">
+                <div class="col-sm-2">
+                    <select
+                        class="form-select judete"
+                        aria-label="Selecteaza Judet"
+                    >
+                        <option selected value="-1">Selecteaza Judet</option>
+                        <option value="10">ALBA</option>
+                        <option value="29">ARAD</option>
+                        <option value="38">ARGES</option>
+                        <option value="47">BACAU</option>
+                        <option value="56">BIHOR</option>
+                        <option value="65">BISTRITA–NASAUD</option>
+                        <option value="74">BOTOSANI</option>
+                        <option value="92">BRAILA</option>
+                        <option value="83">BRASOV</option>
+                        <option value="403">BUCURESTI</option>
+                        <option value="109">BUZAU</option>
+                        <option value="519">CALARASI</option>
+                        <option value="118">CARAS–SEVERIN</option>
+                        <option value="127">CLUJ</option>
+                        <option value="136">CONSTANTA</option>
+                        <option value="145">COVASNA</option>
+                        <option value="154">DAMBOVITA</option>
+                        <option value="163">DOLJ</option>
+                        <option value="172">GALATI</option>
+                        <option value="528">GIURGIU</option>
+                        <option value="181">GORJ</option>
+                        <option value="190">HARGHITA</option>
+                        <option value="207">HUNEDOARA</option>
+                        <option value="216">IALOMITA</option>
+                        <option value="225">IASI</option>
+                        <option value="234">ILFOV</option>
+                        <option value="243">MARAMURES</option>
+                        <option value="252">MEHEDINTI</option>
+                        <option value="261">MURES</option>
+                        <option value="270">NEAMT</option>
+                        <option value="289">OLT</option>
+                        <option value="298">PRAHOVA</option>
+                        <option value="314">SALAJ</option>
+                        <option value="305">SATU MARE</option>
+                        <option value="323">SIBIU</option>
+                        <option value="332">SUCEAVA</option>
+                        <option value="341">TELEORMAN</option>
+                        <option value="350">TIMIS</option>
+                        <option value="369">TULCEA</option>
+                        <option value="387">VALCEA</option>
+                        <option value="378">VASLUI</option>
+                        <option value="396">VRANCEA</option>
+                    </select>
+                </div>
+                <div class="col-sm-5">
+                    <select
+                        class="form-select localitati"
+                        aria-label="Selecteaza Localitate"
+                        disabled
+                    >
+                        <option selected>Selecteaza Localitate</option>
+                    </select>
+                </div>
+                <div class="col-sm-2">
+                    <div class="input-group">
+                        <span class="input-group-text">NC</span>
+                        <input
+                            type="number"
+                            class="form-control nc-input"
+                            aria-label="Numarul cadastral"
+                            disabled
+                        />
+                    </div>
+                </div>
+                <button
+                    type="button"
+                    class="btn btn-primary col-sm-2 cautare"
+                    disabled
+                >
+                    <span class="button-text">Cauta</span>
+                </button>
+            </div>
         </div>
-        <div class="col-sm-5">
-          <select
-            class="form-select localitati"
-            aria-label="Selecteaza Localitate"
-            disabled
-          >
-            <option selected>Selecteaza Localitate</option>
-          </select>
-        </div>
-        <div class="col-sm-3">
-          <div class="input-group sm-3">
-            <span class="input-group-text">NC</span>
-            <input
-              type="number"
-              class="form-control nc-input"
-              aria-label="Numarul cadastral"
-              disabled
-            />
-          </div>
-        </div>
-        <button type="button" class="btn btn-primary col-sm-2 cautare" disabled>
-          Cauta
-        </button>
-      </div>
-    </div>
-    <!--  Bootstrap Bundle with Popper -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
-      crossorigin="anonymous"
-    ></script>
-    <script src="fetcher.js"></script>
-  </body>
+        <!--  Bootstrap Bundle with Popper -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
+            crossorigin="anonymous"
+        ></script>
+        <script src="fetcher.js"></script>
+    </body>
 </html>

@@ -6,16 +6,19 @@ let router = express.Router();
 router.use(express.json());
 
 ConstructDXFFile = function (jsonData) {
-    points = jsonData["features"][0]["geometry"]["rings"][0];
+    try {
+        points = jsonData["features"][0]["geometry"]["rings"][0];
+        var cadastral_points = new makerjs.models.ConnectTheDots(true, points);
+        var model = {
+            models: { cadastru: cadastral_points },
+        };
 
-    var cadastral_points = new makerjs.models.ConnectTheDots(true, points);
-    var model = {
-        models: { cadastru: cadastral_points },
-    };
+        var dxf = makerjs.exporter.toDXF(model);
 
-    var dxf = makerjs.exporter.toDXF(model);
-
-    return dxf;
+        return dxf;
+    } catch (error) {
+        return error;
+    }
 };
 
 var requestJSON = "";
@@ -30,21 +33,31 @@ callback = function (
     response.on("data", function (chunk) {
         requestJSON += chunk;
         requestJSON = JSON.parse(requestJSON);
-        var dxfFile = ConstructDXFFile(requestJSON);
-
-        res.set(
-            "Content-disposition",
-            `attachment; filename=${denumire_judet}-${denumire_localitate}-${numar_cadastral}.dxf`
-        );
-
-        res.send(dxfFile);
+        try {
+            points = requestJSON["features"][0]["geometry"]["rings"][0];
+            var cadastral_points = new makerjs.models.ConnectTheDots(
+                true,
+                points
+            );
+            var model = {
+                models: { cadastru: cadastral_points },
+            };
+            var dxf = makerjs.exporter.toDXF(model);
+            res.set(
+                "Content-disposition",
+                `attachment; filename=${denumire_judet}-${denumire_localitate}-${numar_cadastral}.dxf`
+            );
+            res.status(200).send(dxf);
+        } catch (error) {
+            res.sendStatus(500);
+        }
     });
     response.on("end", function () {
         return;
     });
 };
 
-router.route("/").get((req, res) => {
+router.route("/").post((req, res) => {
     var options = {
         host: "geoportal.ancpi.ro",
         path: `/maps/rest/services/eterra3_publish/MapServer/1/query?f=json&where=INSPIRE_ID='RO.${req.body.judet_id}.${req.body.localitate_uat}.${req.body.numar_cadastral}'&returnGeometry=true&spatialRel=esriSpatialRelIntersects&outFields=NATIONAL_CADASTRAL_REFERENCE`,
@@ -53,6 +66,7 @@ router.route("/").get((req, res) => {
             Referer: "https://geoportal.ancpi.ro/geoportal/imobile/Harta.html",
         },
     };
+    console.log(req.body);
     var httpReq = http.request(options, (response) => {
         callback(
             response,

@@ -20,22 +20,13 @@ app.use(express.static("views"));
 //use the stats.js file to handle endpoints that start with stats
 
 app.get("/", (req, res) => {
-  var options = { root: path.join(__dirname) };
-  res.sendFile("views/cauta_nc.html", options, function (err) {
-    if (err) {
-      res.send(err.message);
-      return;
-    }
-  });
-});
-
-app.get("/dxf", (req, res) => {
-  res.sendFile("views/cauta_nc.html", options, function (err) {
-    if (err) {
-      res.send(err.message);
-      return;
-    }
-  });
+    var options = { root: path.join(__dirname) };
+    res.sendFile("views/cauta_nc.html", options, function (err) {
+        if (err) {
+            res.send(err.message);
+            return;
+        }
+    });
 });
 
 app.listen(process.env.API_PORT);
