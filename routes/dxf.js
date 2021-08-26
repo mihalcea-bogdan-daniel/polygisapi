@@ -2,32 +2,41 @@ const express = require("express");
 const http = require("http");
 const makerjs = require("makerjs");
 
-
 let router = express.Router();
 router.use(express.json());
 
 ConstructDXFFile = function (jsonData) {
-    var line = { 
-        type: 'line', 
-        origin: [0, 0], 
-        end: [50, 50] 
-       };
-    var pathObj = {myLine: line};
-    var model = {paths:pathObj};
-    
-    var dxf = makerjs.exporter.toDXF(model)
-    return dxf
+    points = jsonData["features"][0]["geometry"]["rings"][0];
+
+    var cadastral_points = new makerjs.models.ConnectTheDots(true, points);
+    var model = {
+        models: { cadastru: cadastral_points },
+    };
+
+    var dxf = makerjs.exporter.toDXF(model);
+
+    return dxf;
 };
 
 var requestJSON = "";
-callback = function (response, res) {
+callback = function (
+    response,
+    res,
+    denumire_judet,
+    denumire_localitate,
+    numar_cadastral
+) {
     requestJSON = "";
     response.on("data", function (chunk) {
         requestJSON += chunk;
         requestJSON = JSON.parse(requestJSON);
-        var dxfFile = ConstructDXFFile();
-        
-        res.set("Content-disposition", `attachment; filename=dxf_file_maker.dxf`);
+        var dxfFile = ConstructDXFFile(requestJSON);
+
+        res.set(
+            "Content-disposition",
+            `attachment; filename=${denumire_judet}-${denumire_localitate}-${numar_cadastral}.dxf`
+        );
+
         res.send(dxfFile);
     });
     response.on("end", function () {
@@ -45,7 +54,13 @@ router.route("/").get((req, res) => {
         },
     };
     var httpReq = http.request(options, (response) => {
-        callback(response, res);
+        callback(
+            response,
+            res,
+            req.body.denumire_judet,
+            req.body.denumire_localitate,
+            req.body.numar_cadastral
+        );
     });
     httpReq.end();
 });
