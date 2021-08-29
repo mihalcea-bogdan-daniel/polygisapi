@@ -46,8 +46,8 @@ async function Get_DXFFile(
     _denumire_localitate,
     _denumire_judet
 ) {
-    //let request_url = `https://api.polygis.xyz/dxf/`;
-    let request_url = `http://localhost:5000/dxf/`;
+    let request_url = `https://api.polygis.xyz/dxf/`;
+    //let request_url = `http://localhost:5000/dxf/`;
     let req_body = {
         judet_id: _judet_id,
         localitate_uat: _localitate_uat,
@@ -103,7 +103,6 @@ cautareButton.addEventListener("mouseup", function () {
     loadingElementText.textContent = "  Loading ...";
     cautareButton.appendChild(loadingElement);
     cautareButton.appendChild(loadingElementText);
-
     Get_DXFFile(
         JUDETID,
         LOCALITATE_UAT,
@@ -114,19 +113,35 @@ cautareButton.addEventListener("mouseup", function () {
         //TO-DO create eror on not found
         .then((resp) => {
             if (resp.status == 200) {
-                return resp.blob();
+                cautareButton.removeChild(loadingElement);
+                return resp.blob().then((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    //download(url, "users.dxf");
+                    console.log(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `${DENUMIRE_JUDET}-${DENUMIRE_LOCALITATE}-${NUMAR_CADASTRAL}.dxf`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    loadingElementText.textContent = "Cauta";
+                    cautareButton.removeChild(loadingElement);
+                });
+            } else {
+                return resp.text().then(()=>{
+                    cautareButton.removeChild(loadingElement);
+                    loadingElementText.textContent = "Cauta";
+                    let errorMessageElement = document.createElement("div");
+                    let closeButton = document.createElement("button");
+                    closeButton.className = "btn-close";
+                    closeButton.setAttribute("data-bs-dismiss", "alert");
+                    closeButton.setAttribute("type", "button");
+                    errorMessageElement.className = "row alert alert-warning alert-dismissible fade show mt-3";
+                    errorMessageElement.setAttribute("role", "alert");
+                    errorMessageElement.textContent = `A aparut o eroare, te rog incarca din nou. Verifica daca datele sunt introduse corect.`
+                    errorMessageElement.appendChild(closeButton);
+                    container.appendChild(errorMessageElement);
+                });
             }
         })
-        .then((blob) => {
-            const url = URL.createObjectURL(blob);
-            //download(url, "users.dxf");
-            console.log(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = `${DENUMIRE_JUDET}-${DENUMIRE_LOCALITATE}-${NUMAR_CADASTRAL}.dxf`;
-            a.click();
-            URL.revokeObjectURL(url);
-            loadingElementText.textContent = "Cauta";
-            cautareButton.removeChild(loadingElement);
-        });
+
 });

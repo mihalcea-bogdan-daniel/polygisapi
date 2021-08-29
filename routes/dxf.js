@@ -49,7 +49,7 @@ callback = function (
             );
             res.status(200).send(dxf);
         } catch (error) {
-            res.sendStatus(500);
+            res.status(500).send(error.message);
         }
     });
     response.on("end", function () {
