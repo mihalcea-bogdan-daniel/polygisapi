@@ -66,7 +66,6 @@ router.route("/").post((req, res) => {
             Referer: "https://geoportal.ancpi.ro/geoportal/imobile/Harta.html",
         },
     };
-    console.log(req.body);
     var httpReq = http.request(options, (response) => {
         callback(
             response,

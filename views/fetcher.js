@@ -117,7 +117,6 @@ cautareButton.addEventListener("mouseup", function () {
                 return resp.blob().then((blob) => {
                     const url = URL.createObjectURL(blob);
                     //download(url, "users.dxf");
-                    console.log(blob);
                     const a = document.createElement("a");
                     a.href = url;
                     a.download = `${DENUMIRE_JUDET}-${DENUMIRE_LOCALITATE}-${NUMAR_CADASTRAL}.dxf`;
