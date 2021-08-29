@@ -34,6 +34,7 @@ function GetLocalitati(e) {
             localitatiSelector.disabled = false;
             numarCadastralInput.disabled = false;
             localitatiSelector.selectedIndex = 0;
+            localitatiSelector.focus();
             return json;
         });
     });
@@ -83,15 +84,6 @@ judeteSelector.addEventListener("change", function (e) {
     DENUMIRE_JUDET = e.target.options[e.target.selectedIndex].text;
     GetLocalitati(e);
 });
-
-{
-    /* <span
-class="spinner-border spinner-border-sm"
-role="status"
-aria-hidden="true"
-></span>
-<span class="sr-only">Loading...</span> */
-}
 
 cautareButton.addEventListener("mouseup", function () {
     let loadingElement = document.createElement("span");
