@@ -8,6 +8,7 @@ const stats = require("./routes/stats.js");
 const history = require("./routes/history.js");
 const validation = require("./routes/validation.js");
 const dxf = require("./routes/dxf.js");
+const GISTransformations = require("./routes/GISTransformations.js");
 const app = express();
 
 // Routes - Middlewares
@@ -15,6 +16,7 @@ app.use("/stats", stats);
 app.use("/history", history);
 app.use("/validation", validation);
 app.use("/dxf", dxf);
+app.use("/transforms", GISTransformations);
 //Static webpage
 app.use(express.static("views"));
 //use the stats.js file to handle endpoints that start with stats
