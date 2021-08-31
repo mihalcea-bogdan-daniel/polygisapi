@@ -1,6 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const util = require("util");
+const BSplineInterpolation = require("./BSplineInterpolation.js");
 class Interpolation1D {
     #phi;
     #la;
@@ -15,6 +16,12 @@ class Interpolation1D {
     }
     get GetShiftValues() {
         return this.#shiftValue1;
+    }
+    get GetFF() {
+        return this.#ff;
+    }
+    get GetNC() {
+        return this.#nc;
     }
     readFP(start) {
         let a, b, c, d, e, f, g, h;
@@ -98,20 +105,6 @@ class Interpolation1D {
         this.#nc[14] = (nodliny + 2) * nrjx + nodcolx + 1;
         this.#nc[15] = (nodliny + 2) * nrjx + nodcolx + 2;
         this.#nc[16] = (nodliny + 2) * nrjx + nodcolx + 3;
-        // const debug = {
-        //     minE: minE,
-        //     maxE: maxE,
-        //     minN: minN,
-        //     maxN: maxN,
-        //     stepE: stepE,
-        //     stepN: stepN,
-        //     nrjx: nrjx,
-        //     xk: xk,
-        //     yk: yk,
-        //     nodcolx: nodcolx,
-        //     nodliny: nodliny,
-        // };
-        // console.log(debug);
         return 0;
     }
     DoInterpolation() {
@@ -131,19 +124,6 @@ class Interpolation1D {
                     }
                     az[ii] = value;
                 }
-                // for (let ii = 1; ii <= 16; ii++) {
-                //     value = this.readFP(this.#nc[ii] * 16 - 16 + 48);
-                //     console.log(value);
-                //     if (Math.round(parseInt(value)) == 999) {
-                //         outside = -1;
-                //     }
-                //     ax[ii] = value;
-                //     value = this.readFP(this.#nc[ii] * 16 - 8 + 48);
-                //     if (Math.round(parseInt(value)) == 999) {
-                //         outside = -1;
-                //     }
-                //     ay[ii] = value;
-                // }
             } catch (exception) {
                 console.warn(exception);
                 return -1;
@@ -152,13 +132,66 @@ class Interpolation1D {
                 console.warn("Outside the border");
                 return -1;
             }
-
-            //bsi = new BSplineInterpolation();
-            //bsi.doBSInterpolation(this.#ff, az);
+            let bsi = new BSplineInterpolation();
+            bsi.DoBSInterpolation(this.#ff, az);
+            this.#shiftValue1 = bsi.GetShiftValue();
         } else {
             return -1;
         }
     }
 }
+class Interpolation2D extends Interpolation1D {
+    fileName;
+    constructor(cEast, cNorth, cFileName) {
+        super(cNorth, cEast, cFileName);
+        this.fileName = cFileName;
+        let shiftValueE, shiftValueN;
+    }
+    get GetShiftValueE() {
+        return this.shiftValueE;
+    }
+    get GetShiftValueN() {
+        return this.shiftValueN;
+    }
+    DoInterpolation() {
+        let error = 0;
+        let ax = new Array(17);
+        let ay = new Array(17);
+        let value = 0;
+        let outside = 0;
 
-module.exports = Interpolation1D;
+        error = this.LoadArrays();
+        if (!error) {
+            try {
+                for (let ii = 1; ii <= 16; ii++) {
+                    value = this.readFP(super.GetFF[ii] * 16 - 16 + 48);
+                    console.log(value);
+                    if (Math.round(parseInt(value)) == 999) {
+                        outside = -1;
+                    }
+                    ax[ii] = value;
+                    value = this.readFP(super.GetFF[ii] * 16 - 8 + 48);
+                    if (Math.round(parseInt(value)) == 999) {
+                        outside = -1;
+                    }
+                    ay[ii] = value;
+                }
+            } catch (error) {
+                console.warn(error);
+                return -1;
+            }
+            if (outside != 0) {
+                console.warn("Error: Outside of borderd.");
+                return -1;
+            }
+            let bsi = new BSplineInterpolation();
+            bsi.DoBSInterpolation(this.GetFF(), ax);
+            this.shiftValueE = bsi.GetShiftValue();
+            bsi.DoBSInterpolation(this.GetFF(), ay);
+            this.shiftValueN = bsi.GetShiftValue();
+        } else {
+            return -1;
+        }
+    }
+}
+module.exports = { Interpolation1D, Interpolation2D };

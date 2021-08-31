@@ -80,8 +80,15 @@
                         <option value="396">VRANCEA</option>
                     </select>
                 </div>
+
                 <!-- Localitati -->
-                <div class="col-sm-3 ps-0">
+                <div class="col-sm-4 ps-0 d-flex">
+                    <div class="col-sm-1 m-auto invisible localitati-loader">
+                        <div
+                            class="spinner-border text-primary"
+                            role="status"
+                        ></div>
+                    </div>
                     <select
                         class="form-select localitati"
                         aria-label="Selecteaza Localitate"
@@ -90,6 +97,7 @@
                         <option selected>Selectează Localitate</option>
                     </select>
                 </div>
+
                 <!-- Numar cadastral -->
                 <div class="col-sm-2 ps-0">
                     <div class="input-group">
@@ -184,8 +192,25 @@
                 >
             </div>
         </div>
-        <div class="container maps pt-5">Maps go here</div>
+        <!-- <div class="container maps pt-5">Maps go here</div> -->
         <!--  Bootstrap Bundle with Popper -->
+        <div class="fixed-bottom bg-dark text-light">
+            <div class="container">
+                <div class="row justify-content-between">
+                    <div class="col-sm-4 my-4">
+                        <span>Acest site nu foloseste cookie-uri</span>
+                    </div>
+                    <div class="col-sm-4 my-4">
+                        <span class="align-content-end"
+                            >Contact:
+                            <a href="mailto:contact@polygis.xyz" type="email">
+                                contact@polygis.xyz
+                            </a></span
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
         <script
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"

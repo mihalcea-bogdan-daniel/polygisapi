@@ -9,16 +9,35 @@ let ARRAY_OF_POINTS;
 const container = document.querySelector(".container");
 const judeteSelector = document.querySelector(".judete");
 const localitatiSelector = document.querySelector(".localitati");
+const localitateLoader = document.querySelector(".localitati-loader");
 const numarCadastralInput = document.querySelector(".nc-input");
 const cautareButton = document.querySelector(".cautare");
 
+function AddErrorBox(containerElement, errorMessage) {
+    let errorMessageElement = document.createElement("div");
+    let closeButton = document.createElement("button");
+    closeButton.className = "btn-close";
+    closeButton.setAttribute("data-bs-dismiss", "alert");
+    closeButton.setAttribute("type", "button");
+    errorMessageElement.className =
+        "row alert alert-warning alert-dismissible fade show mt-3";
+    errorMessageElement.setAttribute("role", "alert");
+    errorMessageElement.textContent = errorMessage;
+    errorMessageElement.appendChild(closeButton);
+    containerElement.appendChild(errorMessageElement);
+}
+
 function GetLocalitati(e) {
+    localitateLoader.classList.remove("invisible");
     JUDETID = e.target.value;
     fetch(
         `https://geoportal.ancpi.ro/geoprocessing/rest/services/LOOKUP/UATLookup/GPServer/FastSelect/execute?f=json&Expression=WORKSPACEID = ${JUDETID}`
     ).then((res) => {
         if (!res.ok) {
-            alert(`A aparut o eroare`);
+            AddErrorBox(
+                "Nu m-am putut conecta la eterra. Te rog încearcă peste câteva momente."
+            );
+            return;
         }
         return res.json().then((json) => {
             localitatiSelector.innerHTML = "";
@@ -31,9 +50,11 @@ function GetLocalitati(e) {
                 optionElement.text = localitate["UAT"];
                 localitatiSelector.appendChild(optionElement);
             });
+
             localitatiSelector.disabled = false;
             numarCadastralInput.disabled = false;
             localitatiSelector.selectedIndex = 0;
+            localitateLoader.classList.add("invisible");
             localitatiSelector.focus();
             return json;
         });
@@ -95,6 +116,7 @@ cautareButton.addEventListener("mouseup", function () {
     loadingElementText.textContent = "  Loading ...";
     cautareButton.appendChild(loadingElement);
     cautareButton.appendChild(loadingElementText);
+    cautareButton.disabled = true;
     Get_DXFFile(
         JUDETID,
         LOCALITATE_UAT,
@@ -116,23 +138,20 @@ cautareButton.addEventListener("mouseup", function () {
                     URL.revokeObjectURL(url);
                     loadingElementText.textContent = "Cauta";
                     cautareButton.removeChild(loadingElement);
+                    cautareButton.disabled = false;
                 });
             } else {
-                return resp.text().then(()=>{
+                return resp.text().then(() => {
                     cautareButton.removeChild(loadingElement);
+                    cautareButton.disabled = false;
                     loadingElementText.textContent = "Cauta";
-                    let errorMessageElement = document.createElement("div");
-                    let closeButton = document.createElement("button");
-                    closeButton.className = "btn-close";
-                    closeButton.setAttribute("data-bs-dismiss", "alert");
-                    closeButton.setAttribute("type", "button");
-                    errorMessageElement.className = "row alert alert-warning alert-dismissible fade show mt-3";
-                    errorMessageElement.setAttribute("role", "alert");
-                    errorMessageElement.textContent = `A aparut o eroare, te rog incarca din nou. Verifica daca datele sunt introduse corect.`
-                    errorMessageElement.appendChild(closeButton);
-                    container.appendChild(errorMessageElement);
+                    numarCadastralInput.focus();
+                    numarCadastralInput;
+                    AddErrorBox(
+                        container,
+                        "A apărut o eroare. Verifică datele introduse, dacă sunt corecte încearcă mai târziu."
+                    );
                 });
             }
-        })
-
+        });
 });
