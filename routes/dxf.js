@@ -95,6 +95,4 @@ router.route("/").post((req, res) => {
     httpReq.end();
 });
 
-router.route("/increment_donation").post((req, res) => {});
-
 module.exports = router;

@@ -1,4 +1,6 @@
 const dV = require("./DefaultValues.js");
+const { Interpolation2D } = require("./Interpoliation1D");
+const Helmert2D = require("./Helmert2D.js");
 class StereoToETRS89 {
     #phi;
     #la;
@@ -18,6 +20,7 @@ class StereoToETRS89 {
     }
     DoTransformation(East, North, type70or30) {
         let EastS = 0;
+        let NorthS = 0;
         let shiftValueE, shiftValueN;
         let NameGrid = "";
         let error = 0;
@@ -27,10 +30,25 @@ class StereoToETRS89 {
         if (type70or30 == 30) {
             NameGrid = dV.NameFilegrd_B;
         }
-    }
-
-    DoCompTrans(East, North, hMN, type70or30) {
-        let error = 0;
+        let interpolation2D = new Interpolation2D(East, North, NameGrid);
+        error = interpolation2D.DoInterpolation();
+        if (!error) {
+            shiftValueE = interpolation2D.ShiftValueE;
+            shiftValueN = interpolation2D.ShiftValueN;
+            East = East - shiftValueE;
+            North = North = shiftValueN;
+        } else {
+            return -1;
+        }
+        if (type70or30 == 70) {
+            let H2D = new Helmert2D(
+                dV.tE_St70_OS,
+                dV.tN_St70_OS,
+                dV.dm_St70_OS,
+                dV.Rz_St70_OS
+            );
+            H2D.DoTransformation(East, North);
+        }
     }
 }
 

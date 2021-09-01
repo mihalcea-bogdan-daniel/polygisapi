@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
 const util = require("util");
-const BSplineInterpolation = require("./BSplineInterpolation.js");
+const DoBSInterpolation = require("./BSplineInterpolation.js");
 class Interpolation1D {
     #phi;
     #la;
@@ -147,10 +147,10 @@ class Interpolation2D extends Interpolation1D {
         this.fileName = cFileName;
         let shiftValueE, shiftValueN;
     }
-    get GetShiftValueE() {
+    get ShiftValueE() {
         return this.shiftValueE;
     }
-    get GetShiftValueN() {
+    get ShiftValueN() {
         return this.shiftValueN;
     }
     DoInterpolation() {
@@ -164,13 +164,13 @@ class Interpolation2D extends Interpolation1D {
         if (!error) {
             try {
                 for (let ii = 1; ii <= 16; ii++) {
-                    value = this.readFP(super.GetFF[ii] * 16 - 16 + 48);
+                    value = this.readFP(super.GetNC[ii] * 16 - 16 + 48);
                     console.log(value);
                     if (Math.round(parseInt(value)) == 999) {
                         outside = -1;
                     }
                     ax[ii] = value;
-                    value = this.readFP(super.GetFF[ii] * 16 - 8 + 48);
+                    value = this.readFP(super.GetNC[ii] * 16 - 8 + 48);
                     if (Math.round(parseInt(value)) == 999) {
                         outside = -1;
                     }
@@ -184,14 +184,13 @@ class Interpolation2D extends Interpolation1D {
                 console.warn("Error: Outside of borderd.");
                 return -1;
             }
-            let bsi = new BSplineInterpolation();
-            bsi.DoBSInterpolation(this.GetFF(), ax);
-            this.shiftValueE = bsi.GetShiftValue();
-            bsi.DoBSInterpolation(this.GetFF(), ay);
-            this.shiftValueN = bsi.GetShiftValue();
+            this.shiftValueE = DoBSInterpolation(this.GetFF, ax);
+            this.shiftValueN = DoBSInterpolation(this.GetFF, ay);
+            let s = 0;
         } else {
             return -1;
         }
+        return 0;
     }
 }
 module.exports = { Interpolation1D, Interpolation2D };
