@@ -20,7 +20,7 @@ function AddErrorBox(containerElement, errorMessage) {
     closeButton.setAttribute("data-bs-dismiss", "alert");
     closeButton.setAttribute("type", "button");
     errorMessageElement.className =
-        "row alert alert-warning alert-dismissible fade show mt-3";
+        "row alert alert-warning alert-dismissible fade show mt-3 px-1";
     errorMessageElement.setAttribute("role", "alert");
     errorMessageElement.textContent = errorMessage;
     errorMessageElement.appendChild(closeButton);
