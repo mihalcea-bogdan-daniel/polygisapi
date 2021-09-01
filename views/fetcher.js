@@ -13,6 +13,11 @@ const localitateLoader = document.querySelector(".localitati-loader");
 const numarCadastralInput = document.querySelector(".nc-input");
 const cautareButton = document.querySelector(".cautare");
 
+let loadingElement = document.createElement("span");
+loadingElement.className = "spinner-border text-light spinner-border-sm";
+loadingElement.setAttribute("role", "status");
+loadingElement.setAttribute("aria-hidden", "true");
+
 function AddErrorBox(containerElement, errorMessage) {
     let errorMessageElement = document.createElement("div");
     let closeButton = document.createElement("button");
@@ -25,6 +30,78 @@ function AddErrorBox(containerElement, errorMessage) {
     errorMessageElement.textContent = errorMessage;
     errorMessageElement.appendChild(closeButton);
     containerElement.appendChild(errorMessageElement);
+}
+
+async function Get_DXFFile(
+    _judet_id,
+    _localitate_uat,
+    _numar_cadastral,
+    _denumire_localitate,
+    _denumire_judet
+) {
+    let request_url = `https://api.polygis.xyz/dxf/`;
+    //let request_url = `http://localhost:5000/dxf/`;
+    let req_body = {
+        judet_id: _judet_id,
+        localitate_uat: _localitate_uat,
+        numar_cadastral: _numar_cadastral,
+        denumire_localitate: _denumire_localitate,
+        denumire_judet: _denumire_judet,
+    };
+    const response = await fetch(request_url, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(req_body),
+    });
+    return response;
+}
+
+function GetRequest() {
+    let loadingElementText = cautareButton.querySelector(".button-text");
+    //loadingElementText.className = "sr-only";
+    loadingElementText.textContent = "  Loading ...";
+    cautareButton.appendChild(loadingElement);
+    cautareButton.appendChild(loadingElementText);
+    cautareButton.disabled = true;
+    Get_DXFFile(
+        JUDETID,
+        LOCALITATE_UAT,
+        NUMAR_CADASTRAL,
+        DENUMIRE_LOCALITATE,
+        DENUMIRE_JUDET
+    )
+        //TO-DO create eror on not found
+        .then((resp) => {
+            if (resp.status == 200) {
+                cautareButton.removeChild(loadingElement);
+                return resp.blob().then((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    //download(url, "users.dxf");
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = `${DENUMIRE_JUDET}-${DENUMIRE_LOCALITATE}-${NUMAR_CADASTRAL}.dxf`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    loadingElementText.textContent = "Cauta";
+                    cautareButton.disabled = false;
+                });
+            } else {
+                return resp.text().then(() => {
+                    cautareButton.removeChild(loadingElement);
+                    cautareButton.disabled = false;
+                    loadingElementText.textContent = "Cauta";
+                    numarCadastralInput.focus();
+                    numarCadastralInput;
+                    AddErrorBox(
+                        container,
+                        "A apărut o eroare. Verifică datele introduse, dacă sunt corecte încearcă mai târziu."
+                    );
+                });
+            }
+        });
 }
 
 function GetLocalitati(e) {
@@ -61,33 +138,6 @@ function GetLocalitati(e) {
     });
 }
 
-async function Get_DXFFile(
-    _judet_id,
-    _localitate_uat,
-    _numar_cadastral,
-    _denumire_localitate,
-    _denumire_judet
-) {
-    let request_url = `https://api.polygis.xyz/dxf/`;
-    //let request_url = `http://localhost:5000/dxf/`;
-    let req_body = {
-        judet_id: _judet_id,
-        localitate_uat: _localitate_uat,
-        numar_cadastral: _numar_cadastral,
-        denumire_localitate: _denumire_localitate,
-        denumire_judet: _denumire_judet,
-    };
-    const response = await fetch(request_url, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(req_body),
-    });
-    return response;
-}
-
 // Events
 numarCadastralInput.addEventListener("input", (e) => {
     if (e.target.value == "") {
@@ -107,51 +157,10 @@ judeteSelector.addEventListener("change", function (e) {
 });
 
 cautareButton.addEventListener("mouseup", function () {
-    let loadingElement = document.createElement("span");
-    loadingElement.className = "spinner-border text-light spinner-border-sm";
-    loadingElement.setAttribute("role", "status");
-    loadingElement.setAttribute("aria-hidden", "true");
-    let loadingElementText = cautareButton.querySelector(".button-text");
-    //loadingElementText.className = "sr-only";
-    loadingElementText.textContent = "  Loading ...";
-    cautareButton.appendChild(loadingElement);
-    cautareButton.appendChild(loadingElementText);
-    cautareButton.disabled = true;
-    Get_DXFFile(
-        JUDETID,
-        LOCALITATE_UAT,
-        NUMAR_CADASTRAL,
-        DENUMIRE_LOCALITATE,
-        DENUMIRE_JUDET
-    )
-        //TO-DO create eror on not found
-        .then((resp) => {
-            if (resp.status == 200) {
-                cautareButton.removeChild(loadingElement);
-                return resp.blob().then((blob) => {
-                    const url = URL.createObjectURL(blob);
-                    //download(url, "users.dxf");
-                    const a = document.createElement("a");
-                    a.href = url;
-                    a.download = `${DENUMIRE_JUDET}-${DENUMIRE_LOCALITATE}-${NUMAR_CADASTRAL}.dxf`;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                    loadingElementText.textContent = "Cauta";
-                    cautareButton.removeChild(loadingElement);
-                    cautareButton.disabled = false;
-                });
-            } else {
-                return resp.text().then(() => {
-                    cautareButton.removeChild(loadingElement);
-                    cautareButton.disabled = false;
-                    loadingElementText.textContent = "Cauta";
-                    numarCadastralInput.focus();
-                    numarCadastralInput;
-                    AddErrorBox(
-                        container,
-                        "A apărut o eroare. Verifică datele introduse, dacă sunt corecte încearcă mai târziu."
-                    );
-                });
-            }
-        });
+    GetRequest();
+});
+numarCadastralInput.addEventListener("keyup", function (e) {
+    if (e.keyCode == 13) {
+        GetRequest();
+    }
 });
