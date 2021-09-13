@@ -1,19 +1,21 @@
 const express = require("express");
-const St70ETRS89 = require("../modules/Stereo70ToETRS89.js");
 const {
-    Interpolation1D,
-    Interpolation2D,
-} = require("../modules/Interpoliation1D.js");
+    StereoToETRS89,
+    ETRS89ToStereo,
+} = require("../modules/Stereo70ToETRS89.js");
 let router = express.Router();
 router.route("/stereo_to_etrs89").get((req, res) => {
-    let tr = new St70ETRS89("Main");
+    let tr = new StereoToETRS89("name");
     // let interp = new Interpolation2D(
     //     325544,
     //     522355,
     //     "ETRS89_KRASOVSCHI42_2DJ.GRD"
     // );
-    tr.DoTransformation(325544, 522355, 70);
-    interp.DoInterpolation();
-    res.status(200).send("Stereo transformations will go here");
+    tr.DoTransformation(585641, 345647, 70);
+    let tre = new ETRS89ToStereo("name");
+    tre.DoTransformation(46, 25, 70);
+    res.status(200).send(
+        `ETRS89 -> Stereo 70 \nN: ${tre.North}\nN: ${tre.East}`
+    );
 });
 module.exports = router;

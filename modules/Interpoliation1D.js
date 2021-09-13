@@ -14,7 +14,7 @@ class Interpolation1D {
         this.#la = cla;
         this.#fileName = cFileName;
     }
-    get GetShiftValues() {
+    get ShiftValue() {
         return this.#shiftValue1;
     }
     get GetFF() {
