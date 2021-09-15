@@ -23,7 +23,7 @@ app.use(express.static("views"));
 
 app.get("/", (req, res) => {
     var options = { root: path.join(__dirname) };
-    res.sendFile("views/cauta_nc.html", options, function (err) {
+    res.sendFile("views/index.html", options, function (err) {
         if (err) {
             res.send(err.message);
             return;

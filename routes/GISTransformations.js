@@ -15,7 +15,7 @@ router.route("/stereo_to_etrs89").get((req, res) => {
     let tre = new ETRS89ToStereo("name");
     tre.DoTransformation(46, 25, 70);
     res.status(200).send(
-        `ETRS89 -> Stereo 70 \nN: ${tre.North}\nN: ${tre.East}`
+        `Stereo 70  -> Etrs89 \nN: ${tr.GetPhi}\nN: ${tre.GetLa}`
     );
 });
 module.exports = router;
