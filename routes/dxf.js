@@ -50,7 +50,6 @@ router.route("/").post((req, res) => {
         }
         const dxf = ConstructDXFFile(req.body.points);
         const SQLPolygonString = ConstructGISData(req.body.points);
-        console.log(SQLPolygonString);
         const insertHistoryQuery = `INSERT INTO search_history (judet, localitate, numar_cadastral, polygon_numar_cadastral, uuid) 
   VALUES (
       '${req.body.judet_id}', 
@@ -63,7 +62,7 @@ router.route("/").post((req, res) => {
                 res.status(500).send(
                     "MySQL Error, please contact administrator."
                 );
-                throw new Error(err.message);
+                return;
             }
             console.log("Inserted entry");
         });
