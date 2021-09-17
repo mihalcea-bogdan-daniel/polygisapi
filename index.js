@@ -19,8 +19,12 @@ app.use("/dxf", dxf);
 app.use("/transforms", GISTransformations);
 //Static webpage
 app.use(express.static("views"));
-//use the stats.js file to handle endpoints that start with stats
+app.use("/views", express.static("views"));
+//Set renderer
+app.set("view engine", "pug");
+app.set("views", "./views/pug");
 
+//use the stats.js file to handle endpoints that start with stats
 app.get("/", (req, res) => {
     var options = { root: path.join(__dirname) };
     res.sendFile("views/index.html", options, function (err) {

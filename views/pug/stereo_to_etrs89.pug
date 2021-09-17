@@ -1,0 +1,16 @@
+html
+	head
+		title= title
+		link(rel="stylesheet" href="../views/pug/css/main.css" type="text/css")
+	body
+	.method= method 
+	form(action="/convert_stereo" method=method)
+		each val in inputs
+			if !val.options
+				input(type=val.type)
+			else 
+				select(name="stereo")
+					each el in val.options
+						option(value=el)=el 
+		input(type= "button" value= "Convert")
+	code= "45.6565, 25.664545"
