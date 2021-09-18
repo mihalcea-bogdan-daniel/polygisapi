@@ -2,15 +2,40 @@ html
 	head
 		title= title
 		link(rel="stylesheet" href="../views/pug/css/main.css" type="text/css")
+		link(rel="preconnect" href="https://fonts.googleapis.com")
+		link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+		link(rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,100;1,400;1,900&family=Ubuntu+Mono&display=swap")
+		link(rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/styles/agate.min.css")
 	body
-	.method= method 
-	form(action="/convert_stereo" method=method)
-		each val in inputs
-			if !val.options
-				input(type=val.type)
-			else 
-				select(name="stereo")
-					each el in val.options
-						option(value=el)=el 
-		input(type= "button" value= "Convert")
-	code= "45.6565, 25.664545"
+	.container
+		.method-container
+			div(class="method "+method)= method
+			span.link= link
+			span.description= description
+		form( method=method name="convert_form" class="submit-form")
+			each val in inputs
+				if !val.options
+					if val.type === "input"
+						input(type = val.type)
+					if val.type === "textarea"
+						textarea(
+							id="coordinates-textarea"
+							name="coordinates" 
+							rows="10" 
+							placeholder= val.placeholder)
+				else 
+					select(name="stereo" class="type-select")
+						each el in val.options
+							option(value=el)=el 
+			button(type= "submit" value= "Convert" class="submit-button")= "Convert"
+		p.example Request example:
+		pre
+			code.language-json= req_example
+		p.example Response example:
+		pre
+			code.language-json= res_example
+
+	script(src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.2.0/highlight.min.js")
+	script.
+		hljs.highlightAll()
+	script(src="../pug/js/SubmitRequestRequest.js")

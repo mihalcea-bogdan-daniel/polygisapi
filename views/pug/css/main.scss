@@ -1,3 +1,78 @@
-body{
- background-color: azure;   
+$main-dark : #2e2e2e;
+$main-dark-active : #1A1A1A;
+$main-color : #dfe5f7;
+$main-bg : #f5f5f5;
+$secondary-color:#FF7C00;
+$error-color:#f13232;
+$method-post:#52b97d;
+$method-post-sec:#cefae0;
+
+body {
+    background-color: $main-bg;
+    font-family: 'Roboto', sans-serif;
+}
+
+.container {
+    width: 50%;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    p.example{
+        margin: 0;
+    }
+}
+
+.method-container {
+    display: flex;
+    align-items: center;
+    background-color: $method-post-sec;
+    padding: 3px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border: 2px solid $method-post;
+    .method {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 80px;
+        min-height: 22px;
+        font-weight: 900;
+        color: $main-bg;
+        border-radius: 5px;
+        border: 2px solid $method-post-sec;
+        padding: 0.2rem;
+        text-align: center;
+        &.POST {
+            // max-width: 4rem;
+            background-color: $method-post;
+        }
+    }
+    span.link {
+        font-family: 'Ubuntu Mono', monospace;
+        font-weight: bold;
+        margin-left: 20px;
+    }
+    span.description{
+        margin-left: 10px;
+        font-style: italic;
+    }
+}
+form{
+    display: flex;
+    flex-direction: column;
+    padding:10px 0 ;
+    > *{
+        min-height: 30px;
+        margin:10px 0 ;
+
+    }
+    textarea{
+        resize: vertical;
+    }
+
+    button, select, input{
+        align-self: flex-start;
+        min-width: 120px;
+    }
+    
 }

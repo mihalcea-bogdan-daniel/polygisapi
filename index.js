@@ -23,6 +23,7 @@ app.use("/views", express.static("views"));
 //Set renderer
 app.set("view engine", "pug");
 app.set("views", "./views/pug");
+app.set("js", "./views/pug/js");
 
 //use the stats.js file to handle endpoints that start with stats
 app.get("/", (req, res) => {
