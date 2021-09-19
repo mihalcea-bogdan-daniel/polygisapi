@@ -1,14 +1,14 @@
-const { text } = require("body-parser");
 const express = require("express");
 const polygis = require("polygis");
 //44.435500, 26.102500 - Piata universitatii
 let router = express.Router();
+router.use(express.json());
 req = {
-    "coordinates": "552000.00, 322554.221; 552257.25, 3244587.556", 
+    "coordinates": "552000.00, 322554.221; 552257.25, 3244587.556",
     "type": 70
 }
 res = {
-    "coordinates": "45.550, 24.550; 43.548, 24.875", 
+    "coordinates": "45.550, 24.550; 43.548, 24.875",
     "type": "ETRS89"
 }
 //Stereo To ETRS89 descriptor object for pug
@@ -33,12 +33,40 @@ let descriptor = {
     res_example: JSON.stringify(res),
 };
 
-router.route("/stereo_to_etrs89").get((req, res) => {
-    
-    res.render("./pug/stereo_to_etrs89.pug", descriptor);
-});
-router.route("/stereo_to_etrs89").post((req, res) => {
-    console.log(req.body);
-    res.status(200).send(`${req.body}`);
-});
+let parseCoordinateString = function (coordString, stereo30or70) {
+    let arrayOfPoints = coordString.split(";")
+    stereo30or70 = parseInt( stereo30or70.replace("Stereo", ""));
+    let arrayOfETRS89Points = [];
+    arrayOfPoints.forEach(coord => {
+        let point = coord.split(",");
+
+        if (point.length == 2) {
+            let North = parseFloat(point[0].trim());
+            let East = parseFloat(point[1].trim());
+            console.log(`North: ${North} - East: ${East}`);
+            arrayOfETRS89Points.push(
+                [polygis.ConvertStereoToETRS89(East, North, stereo30or70).phi,
+                 polygis.ConvertStereoToETRS89(East, North, stereo30or70).la]);
+        }
+    });
+    return arrayOfETRS89Points;
+}
+router.route("/stereo_to_etrs89")
+    .get((req, res) => {
+
+        res.render("./pug/stereo_to_etrs89.pug", descriptor);
+    })
+    .post((req, res) => {
+        body = JSON.stringify(req.body);
+        console.log(body);
+        if(!req.body){
+            res.sendStatus(503);
+        }
+
+        parseCoordinateString(req.body.coordinates, req.body.type);
+
+        res.status(200).send(body);
+    });
+
+
 module.exports = router;
