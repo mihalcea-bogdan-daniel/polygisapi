@@ -22,8 +22,8 @@ app.use(express.static("views"));
 app.use("/views", express.static("views"));
 //Set renderer
 
-app.set("views", __dirname +"/views/pug");
-app.set("js", __dirname+"/views/pug/js");
+app.set("views", path.join(__dirname, "/views"));
+app.set("js", path.join(__dirname, "/views/pug/js"));
 
 //use the stats.js file to handle endpoints that start with stats
 app.get("/", (req, res) => {

@@ -35,7 +35,7 @@ let descriptor = {
 
 router.route("/stereo_to_etrs89").get((req, res) => {
     
-    res.render("stereo_to_etrs89.pug", descriptor);
+    res.render("./pug/stereo_to_etrs89.pug", descriptor);
 });
 router.route("/stereo_to_etrs89").post((req, res) => {
     console.log(req.body);
