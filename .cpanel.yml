@@ -5,8 +5,7 @@ deployment:
     - /bin/cp -R routes $DEPLOYPATH
     - /bin/cp -R modules $DEPLOYPATH
     - /bin/cp -R GISDATA $DEPLOYPATH
-    - /bin/cp -R views/ $DEPLOYPATH
-    - /bin/cp -R views/pug $DEPLOYPATH
+    - /bin/cp -R views $DEPLOYPATH
     - /bin/cp index.js $DEPLOYPATH
     - /bin/cp sqlconnection.js $DEPLOYPATH
     - /bin/cp authentication.js $DEPLOYPATH
