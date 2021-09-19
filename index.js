@@ -10,7 +10,7 @@ const validation = require("./routes/validation.js");
 const dxf = require("./routes/dxf.js");
 const GISTransformations = require("./routes/GISTransformations.js");
 const app = express();
-
+app.set("view engine", "pug");
 // Routes - Middlewares
 app.use("/stats", stats);
 app.use("/history", history);
@@ -21,9 +21,9 @@ app.use("/transforms", GISTransformations);
 app.use(express.static("views"));
 app.use("/views", express.static("views"));
 //Set renderer
-app.set("view engine", "pug");
-app.set("views", "./views/pug");
-app.set("js", "./views/pug/js");
+
+app.set("views", __dirname +"/views/pug");
+app.set("js", __dirname+"/views/pug/js");
 
 //use the stats.js file to handle endpoints that start with stats
 app.get("/", (req, res) => {
