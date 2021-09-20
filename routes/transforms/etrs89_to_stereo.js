@@ -4,26 +4,28 @@ const polygis = require("polygis");
 let router = express.Router();
 router.use(express.json());
 const request_example = {
-    coordinates: "552000.00, 322554.221; 552257.25, 324587.556",
+    coordinates: "46.23146,25.546456; 45.564654, 24.578484;",
     type: 70,
 };
 const response_example = {
     coordinates: [
-        [46.44436784264511, 22.68845012463208],
-        [46.44721101226258, 22.714805485068737],
+        [
+            [525897.2724371311, 542263.2119023956],
+            [451742.84225592745, 467221.3052638201],
+        ],
     ],
-    type: "etrs89",
+    type: "Stereo 70",
 };
 //Stereo To ETRS89 descriptor object for pug
 let descriptor = {
-    title: "Stereo to ETRS89",
+    title: "ETRS89 to Stereo",
     method: "POST",
-    description: "Transform from Stereo 70 or 30 into ETRS89 coordinates",
-    link: "/transforms/stereo_to_etrs89",
+    description: "Transform from ETRS89 to Stereo 70 coordinates",
+    link: "/transforms/etrs89_to_stereo",
     inputs: [
         {
             type: "textarea",
-            placeholder: "500000.00, 500000.00;550000.00, 450000.00;",
+            placeholder: "46.23146, 25.546456; 45.564654, 24.578484;",
         },
         {
             type: "select",
@@ -45,18 +47,16 @@ let parseCoordinateString = function (coordString, stereo30or70) {
         let point = coord.split(",");
 
         if (point.length == 2) {
-            let North = parseFloat(point[0].trim());
-            let East = parseFloat(point[1].trim());
-            arrayOfETRS89Points.push([
-                polygis.ConvertStereoToETRS89(East, North, stereo30or70).phi,
-                polygis.ConvertStereoToETRS89(East, North, stereo30or70).la,
-            ]);
+            let phi = parseFloat(point[0].trim());
+            let la = parseFloat(point[1].trim());
+            let northEast = polygis.ConvertETRS89ToStereo70(phi, la);
+            arrayOfETRS89Points.push([northEast.North, northEast.East]);
         }
     });
     return arrayOfETRS89Points;
 };
 router
-    .route("/stereo_to_etrs89")
+    .route("/etrs89_to_stereo")
     .get((req, res) => {
         res.render("./pug/coordinates_transform.pug", descriptor);
     })

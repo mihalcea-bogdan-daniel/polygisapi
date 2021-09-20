@@ -7,7 +7,6 @@ submitForm.onsubmit = function (e) {
     let coordString = coordinatesElement.value;
     let typeSelection = document.querySelector(".type-select");
     let request_url = window.location.href;
-    //let request_url = `http://localhost:5000/transforms/stereo_to_etrs89/`;
     console.log(window.location.href);
     req_body = {
         coordinates: coordString,
