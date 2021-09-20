@@ -1,6 +1,6 @@
 body {
   background-color: #f5f5f5;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 .container {
@@ -26,11 +26,17 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  background-color: #cefae0;
+  background-color: #dfe5f7;
   padding: 3px;
   margin-bottom: 5px;
   border-radius: 5px;
+  border: 2px solid #2e2e2e;
+}
+
+.method-container.POST {
+  background-color: #cefae0;
   border: 2px solid #52b97d;
+  color: #2e2e2e;
 }
 
 .method-container .method {
@@ -46,19 +52,22 @@ body {
   min-width: 80px;
   min-height: 22px;
   font-weight: 900;
-  color: #f5f5f5;
+  border: 2px solid #2e2e2e;
+  background-color: #dfe5f7;
+  color: #2e2e2e;
   border-radius: 5px;
-  border: 2px solid #cefae0;
   padding: 0.2rem;
   text-align: center;
 }
 
 .method-container .method.POST {
+  color: #f5f5f5;
+  border: 2px solid #cefae0;
   background-color: #52b97d;
 }
 
 .method-container span.link {
-  font-family: 'Ubuntu Mono', monospace;
+  font-family: "Ubuntu Mono", monospace;
   font-weight: bold;
   margin-left: 20px;
 }
@@ -88,7 +97,9 @@ form textarea {
   resize: vertical;
 }
 
-form button, form select, form input {
+form button,
+form select,
+form input {
   -ms-flex-item-align: start;
       align-self: flex-start;
   min-width: 120px;

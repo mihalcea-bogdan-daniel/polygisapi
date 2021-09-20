@@ -1,15 +1,15 @@
-$main-dark : #2e2e2e;
-$main-dark-active : #1A1A1A;
-$main-color : #dfe5f7;
-$main-bg : #f5f5f5;
-$secondary-color:#FF7C00;
-$error-color:#f13232;
-$method-post:#52b97d;
-$method-post-sec:#cefae0;
+$main-dark: #2e2e2e;
+$main-dark-active: #1a1a1a;
+$main-color: #dfe5f7;
+$main-bg: #f5f5f5;
+$secondary-color: #ff7c00;
+$error-color: #f13232;
+$method-post: #52b97d;
+$method-post-sec: #cefae0;
 
 body {
     background-color: $main-bg;
-    font-family: 'Roboto', sans-serif;
+    font-family: "Roboto", sans-serif;
 }
 
 .container {
@@ -17,7 +17,7 @@ body {
     margin: auto;
     display: flex;
     flex-direction: column;
-    p.example{
+    p.example {
         margin: 0;
     }
 }
@@ -25,11 +25,16 @@ body {
 .method-container {
     display: flex;
     align-items: center;
-    background-color: $method-post-sec;
+    background-color: $main-color;
     padding: 3px;
     margin-bottom: 5px;
     border-radius: 5px;
-    border: 2px solid $method-post;
+    border: 2px solid $main-dark;
+    &.POST {
+        background-color: $method-post-sec;
+        border: 2px solid $method-post;
+        color: $main-dark;
+    }
     .method {
         display: flex;
         justify-content: center;
@@ -37,42 +42,45 @@ body {
         min-width: 80px;
         min-height: 22px;
         font-weight: 900;
-        color: $main-bg;
+        border: 2px solid $main-dark;
+        background-color: $main-color;
+        color: $main-dark;
         border-radius: 5px;
-        border: 2px solid $method-post-sec;
         padding: 0.2rem;
         text-align: center;
         &.POST {
             // max-width: 4rem;
+            color: $main-bg;
+            border: 2px solid $method-post-sec;
             background-color: $method-post;
         }
     }
     span.link {
-        font-family: 'Ubuntu Mono', monospace;
+        font-family: "Ubuntu Mono", monospace;
         font-weight: bold;
         margin-left: 20px;
     }
-    span.description{
+    span.description {
         margin-left: 10px;
         font-style: italic;
     }
 }
-form{
+form {
     display: flex;
     flex-direction: column;
-    padding:10px 0 ;
-    > *{
+    padding: 10px 0;
+    > * {
         min-height: 30px;
-        margin:10px 0 ;
-
+        margin: 10px 0;
     }
-    textarea{
+    textarea {
         resize: vertical;
     }
 
-    button, select, input{
+    button,
+    select,
+    input {
         align-self: flex-start;
         min-width: 120px;
     }
-    
 }
