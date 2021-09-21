@@ -8,19 +8,19 @@ let router = express.Router();
 router.use(cors());
 router.use(express.json());
 
-ConstructGISData = function (pointsArray){
-    let stringOfSQLPolygon='POLYGON((';
-    pointsArray.forEach((p, i)=>{
-        let pointETRS89 = polygis.ConvertStereoToETRS89(p[0],p[1]);
-        let pointString = `${pointETRS89.phi} ${pointETRS89.la}`
-        if(i < pointsArray.length && i>0){
-            stringOfSQLPolygon += ','
+ConstructGISData = function (pointsArray) {
+    let stringOfSQLPolygon = "POLYGON((";
+    pointsArray.forEach((p, i) => {
+        let pointETRS89 = polygis.ConvertStereoToETRS89(p[0], p[1]);
+        let pointString = `${pointETRS89.phi} ${pointETRS89.la}`;
+        if (i < pointsArray.length && i > 0) {
+            stringOfSQLPolygon += ",";
         }
         stringOfSQLPolygon += pointString;
     });
     stringOfSQLPolygon += "))";
     return stringOfSQLPolygon;
-}
+};
 
 ConstructDXFFile = function (pointsArray) {
     try {
@@ -44,9 +44,6 @@ router.route("/").post((req, res) => {
     try {
         if (!req.body.points) {
             throw new Error("NO POINTS");
-        }
-        if (!req.body.numar_cadastral) {
-            throw new Error("NO CADASTER FOUND");
         }
         const dxf = ConstructDXFFile(req.body.points);
         const SQLPolygonString = ConstructGISData(req.body.points);

@@ -4,8 +4,8 @@ const polygis = require("polygis");
 const bodyParser = require("body-parser");
 
 //https://blog.logrocket.com/documenting-your-express-api-with-swagger/
-const swaggerJsdoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
+const swaggerJsdoc = require("swagger-jsdoc");
 const options = require("../views/docs/basicInfo");
 const specs = swaggerJsdoc(options);
 
@@ -16,6 +16,7 @@ let router = express.Router();
 router.use(express.json());
 router.use(stereo_to_etrs89);
 router.use(etrs89_to_stereo);
+
 router.use(
     "/docs",
     swaggerUi.serve,

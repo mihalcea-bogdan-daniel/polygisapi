@@ -18,11 +18,11 @@ const options = {
         },
         servers: [
             {
-                url: "http://localhost:5000/transforms",
+                url: "http://localhost:5000/",
             },
         ],
     },
-    apis: ["./routes/transforms/etrs89_to_stereo.js"],
+    apis: ["./routes/transforms/*.js", "./routes/dxf.js"],
 };
 
 module.exports = options;
