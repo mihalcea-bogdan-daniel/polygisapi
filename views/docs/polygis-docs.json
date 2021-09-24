@@ -15,7 +15,7 @@
     "servers": [
         {
             "url": "https://api.polygis.xyz",
-            "description": "Server principal"
+            "description": "Server"
         }
     ],
     "tags": [
@@ -234,18 +234,9 @@
                 "type": "object",
                 "properties": {
                     "coordinates": {
-                        "type": "array",
-                        "example": [
-                            [500000, 329900],
-                            [520000, 379900]
-                        ],
-                        "items": {
-                            "type": "array",
-                            "items": {
-                                "type": "number",
-                                "format": "double double"
-                            }
-                        }
+                        "type": "string",
+                        "format": "######.##, ######.##; ######.##, ######.##",
+                        "example": "500000, 329900; 520000, 379900"
                     },
                     "type": {
                         "type": "string",
@@ -259,18 +250,9 @@
                 "type": "object",
                 "properties": {
                     "coordinates": {
-                        "type": "array",
-                        "example": [
-                            [45.45, 25.45465],
-                            [46.56498, 24.546804]
-                        ],
-                        "items": {
-                            "type": "array",
-                            "items": {
-                                "type": "number",
-                                "format": "double double"
-                            }
-                        }
+                        "type": "string",
+                        "format": "##.#####, ##.#####; ##.#####, ##.#####",
+                        "example": "45.45, 25.45465; 46.56498, 24.546804"
                     },
                     "type": {
                         "type": "string",
