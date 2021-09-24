@@ -1,0 +1,285 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "polygis",
+        "description": "GIS Transformations API",
+        "contact": {
+            "email": "contact@polygis.xyz"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://api.polygis.xyz",
+            "description": "Server principal"
+        }
+    ],
+    "tags": [
+        {
+            "name": "public",
+            "description": "Open to public"
+        }
+    ],
+    "paths": {
+        "/dxf": {
+            "get": {
+                "tags": ["public"],
+                "summary": "Displays an interface where you can use this path trough HTML",
+                "description": "By passing in the appropriate options, you can search for\navailable inventory in the system\n",
+                "operationId": "publicDXFTransformation",
+                "responses": {
+                    "200": {
+                        "description": "A DXF generated file based on user inputs",
+                        "content": {
+                            "application/dxf": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "A string formated DXF file."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Error with description"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["public"],
+                "summary": "Returns a DXF String file.",
+                "description": "returns a downloadable DXF file.",
+                "operationId": "POST-publicDXFTransformation",
+                "requestBody": {
+                    "description": "Request body to DXF API.",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/dxfRequestBody"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success string response",
+                        "content": {
+                            "application/dxf": {
+                                "schema": {
+                                    "type": "string",
+                                    "format": "A string formated DXF file."
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        },
+        "/transforms/etrs89_to_stereo": {
+            "get": {
+                "tags": ["public"],
+                "summary": "Displays an interface where you can use this path trough HTML",
+                "description": "By passing in the appropriate options, you can transform from\nETRS89 Coordinate system to Stereo coordinate system\n",
+                "operationId": "publicETRS89ToStereoTransform",
+                "responses": {
+                    "200": {
+                        "description": "Transorm Stereo 70 or 30 into ETRS89",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/stereoCoordinates"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["public"],
+                "summary": "Transform ETRS89 to Stereo 70 or 30",
+                "description": "By passing in the appropriate options, you can transform from\nETRS89 Coordinate system to Stereo coordinate system\n",
+                "operationId": "POST-publicETRS89ToStereoTransform",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ETRS89Coordinates"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Transorm Stereo 70 or 30 into ETRS89",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/stereoCoordinates"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request"
+                    }
+                }
+            }
+        },
+        "/transforms/stereo_to_etrs89": {
+            "get": {
+                "tags": ["public"],
+                "summary": "Displays an interface where you can use this path trough HTML",
+                "description": "By passing in the appropriate options, you can transform from\nETRS89 Coordinate system to Stereo coordinate system\n",
+                "operationId": "publicStereoToETRS89Transform",
+                "responses": {
+                    "200": {
+                        "description": "Transorm Stereo 70 or 30 into ETRS89",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ETRS89Coordinates"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["public"],
+                "summary": "Transform ETRS89 to Stereo 70 or 30",
+                "description": "By passing in the appropriate options, you can transform from\nETRS89 Coordinate system to Stereo coordinate system\n",
+                "operationId": "POST-publicStereoToETRS89Transform",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/stereoCoordinates"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Transorm Stereo 70 or 30 into ETRS89",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ETRS89Coordinates"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "bad request"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "dxfRequestBody": {
+                "required": ["points"],
+                "type": "object",
+                "properties": {
+                    "judet_id": {
+                        "type": "number",
+                        "format": "integer",
+                        "example": 35
+                    },
+                    "localitate_uat": {
+                        "type": "number",
+                        "format": "integer",
+                        "example": 541
+                    },
+                    "numar_cadastral": {
+                        "type": "number",
+                        "format": "integer",
+                        "example": 541
+                    },
+                    "points": {
+                        "type": "array",
+                        "example": [
+                            [12312.21321, 231321.31],
+                            [4334.4234, 34245.4235]
+                        ],
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "number",
+                                "format": "double, double"
+                            }
+                        }
+                    },
+                    "uuid": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "4267h2bhj4"
+                    }
+                }
+            },
+            "stereoCoordinates": {
+                "type": "object",
+                "properties": {
+                    "coordinates": {
+                        "type": "array",
+                        "example": [
+                            [500000, 329900],
+                            [520000, 379900]
+                        ],
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "number",
+                                "format": "double double"
+                            }
+                        }
+                    },
+                    "type": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "Stereo 70"
+                    }
+                },
+                "description": "Stereo coordinates"
+            },
+            "ETRS89Coordinates": {
+                "type": "object",
+                "properties": {
+                    "coordinates": {
+                        "type": "array",
+                        "example": [
+                            [45.45, 25.45465],
+                            [46.56498, 24.546804]
+                        ],
+                        "items": {
+                            "type": "array",
+                            "items": {
+                                "type": "number",
+                                "format": "double double"
+                            }
+                        }
+                    },
+                    "type": {
+                        "type": "string",
+                        "format": "string",
+                        "example": "ETRS89"
+                    }
+                },
+                "description": "ETRS89 coordinates"
+            }
+        }
+    }
+}

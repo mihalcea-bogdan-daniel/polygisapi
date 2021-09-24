@@ -9,9 +9,11 @@ const history = require("./routes/history.js");
 const validation = require("./routes/validation.js");
 const dxf = require("./routes/dxf.js");
 const GISTransformations = require("./routes/GISTransformations.js");
+const APIDocumentation = require("./routes/apidocs.js");
 const app = express();
 app.set("view engine", "pug");
 // Routes - Middlewares
+app.use("/docs", APIDocumentation);
 app.use("/stats", stats);
 app.use("/history", history);
 app.use("/validation", validation);
