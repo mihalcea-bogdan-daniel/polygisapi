@@ -197,17 +197,20 @@
                     "judet_id": {
                         "type": "number",
                         "format": "integer",
-                        "example": 35
+                        "example": 35,
+                        "descriere": "Identificator judet"
                     },
                     "localitate_uat": {
                         "type": "number",
                         "format": "integer",
-                        "example": 541
+                        "example": 541,
+                        "descriere": "Unitatea Administrativ teritoriala"
                     },
                     "numar_cadastral": {
                         "type": "number",
                         "format": "integer",
-                        "example": 541
+                        "example": 541,
+                        "descriere": "Numarul cadastral al parcelei"
                     },
                     "points": {
                         "type": "array",

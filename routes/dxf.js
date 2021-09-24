@@ -69,7 +69,16 @@ router.route("/").post((req, res) => {
         );
         res.status(200).send(dxf);
     } catch (error) {
-        res.status(500).send(error.message);
+        if (error.message != "OUTSIDE BORDER") {
+            res.status(500).send(error.message);
+        }
+        console.log({ error });
+        const dxf = ConstructDXFFile(req.body.points);
+        res.setHeader(
+            "Content-disposition",
+            "attachment; filename=" + `${req.body.numar_cadastral}.dxf`
+        );
+        res.status(200).send(dxf);
     }
 });
 
