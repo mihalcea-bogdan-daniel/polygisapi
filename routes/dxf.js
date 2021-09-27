@@ -4,7 +4,6 @@ const cors = require("cors");
 const db = require("../sqlconnection.js");
 const polygis = require("polygis");
 let router = express.Router();
-
 router.use(cors());
 router.use(express.json());
 
@@ -65,8 +64,10 @@ router.route("/").post((req, res) => {
         });
         res.setHeader(
             "Content-disposition",
-            "attachment; filename=" + `${req.body.numar_cadastral}.dxf`
+            "attachment; filename=" +
+                `${req.body.numar_cadastral || "response"}.dxf`
         );
+        res.setHeader("Content-Type", "application/dxf");
         res.status(200).send(dxf);
     } catch (error) {
         if (error.message != "OUTSIDE BORDER") {
@@ -76,8 +77,10 @@ router.route("/").post((req, res) => {
         const dxf = ConstructDXFFile(req.body.points);
         res.setHeader(
             "Content-disposition",
-            "attachment; filename=" + `${req.body.numar_cadastral}.dxf`
+            "attachment; filename=" +
+                `${req.body.numar_cadastral || "response"}.dxf`
         );
+        res.setHeader("Content-Type", "application/dxf");
         res.status(200).send(dxf);
     }
 });
